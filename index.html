@@ -3,68 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FalconCast Pro - Next Gen Sports Hub</title>
+    <title>FalconCast Pro - Live Sports Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* কাস্টম স্ক্রলবার ডিজাইন */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
 </head>
-<body class="bg-slate-900 text-white font-sans">
+<body class="bg-slate-900 text-white font-sans selection:bg-blue-600 selection:text-white">
 
-    <nav class="bg-slate-950 p-4 shadow-lg flex justify-between items-center border-b border-slate-800">
-        <h1 class="text-2xl font-bold text-blue-500 tracking-wider">FalconCast <span class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded">PRO</span></h1>
-        <button onclick="togglePip()" class="bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1">
-            📺 PiP মোড
+    <nav class="bg-slate-950 p-4 shadow-lg flex justify-between items-center border-b border-slate-800 sticky top-0 z-50">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-circle-play text-blue-500 text-2xl animate-pulse"></i>
+            <h1 class="text-xl font-bold tracking-wider bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">FalconCast PRO</h1>
+        </div>
+        <button onclick="togglePip()" class="bg-slate-800 hover:bg-blue-600 hover:text-white transition px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1">
+            <i class="fa-solid fa-window-restore"></i> PiP মোড
         </button>
     </nav>
 
-    <div class="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div class="container mx-auto p-3 grid grid-cols-1 lg:grid-cols-4 gap-4">
         
-        <div class="lg:col-span-1 bg-slate-950 p-4 rounded-xl border border-slate-800 h-[calc(100vh-120px)] flex flex-col">
-            <h3 class="text-md font-bold mb-3 text-slate-300">🔗 কাস্টম M3U প্লেলিস্ট</h3>
-            <div class="flex gap-2 mb-4">
-                <input id="m3u-url" type="text" placeholder="Paste .m3u link here" class="bg-slate-900 border border-slate-700 text-xs rounded p-2 flex-1 focus:outline-none focus:border-blue-500 text-white">
-                <button onclick="loadM3uPlaylist()" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-xs font-bold">লোড</button>
-            </div>
+        <div class="lg:col-span-3 space-y-4">
             
-            <h3 class="text-sm font-bold mb-2 text-slate-400 border-b border-slate-800 pb-1">চ্যানেল লিস্ট</h3>
-            <div id="channel-list" class="flex-1 overflow-y-auto space-y-2 pr-1 text-xs text-slate-400">
-                <p class="text-center py-4 text-slate-600">কোনো প্লেলিস্ট লোড করা হয়নি</p>
-            </div>
-        </div>
-        
-        <div class="lg:col-span-2 space-y-4">
-            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 shadow-xl">
-                <div class="relative pt-[56.25%] bg-black rounded-lg overflow-hidden">
+            <div class="bg-slate-950 p-2 sm:p-3 rounded-2xl border border-slate-800 shadow-2xl">
+                <div class="relative pt-[56.25%] bg-black rounded-xl overflow-hidden shadow-inner">
                     <div class="absolute inset-0">
                         <video id="live-player" class="video-js vjs-default-skin vjs-big-play-centered w-full h-full" controls preload="auto">
-                            <source src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" type="application/x-mpegURL">
+                            <source src="https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8" type="application/x-mpegURL">
                         </video>
                     </div>
                 </div>
-                <div class="flex justify-between items-center mt-3">
-                    <h2 id="playing-title" class="text-sm font-semibold text-slate-300">এখন দেখছেন: ডিফল্ট টেস্ট সার্ভার</h2>
-                    <div class="flex gap-1.5">
-                        <button onclick="switchServer(0)" class="bg-blue-600 text-[10px] px-2 py-1 rounded font-bold">সার্ভার ১</button>
-                        <button onclick="switchServer(1)" class="bg-slate-800 text-[10px] px-2 py-1 rounded font-bold hover:bg-slate-700">সার্ভার ২ (ব্যাকআপ)</button>
-                    </div>
+                <div class="flex justify-between items-center mt-3 px-1">
+                    <h2 id="playing-title" class="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
+                        এখন দেখছেন: FIFA World Cup 2026
+                    </h2>
+                    <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-1 rounded-md border border-slate-700">Auto-Fallback Ready</span>
                 </div>
             </div>
 
-            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                <h3 class="text-md font-bold mb-3 text-blue-400 border-l-4 border-blue-500 pl-2">আজকের খেলার সময়সূচী (Auto-Updated)</h3>
-                <div id="schedule-container" class="space-y-2 text-xs">
-                    <p class="text-slate-500 animate-pulse">লোড হচ্ছে...</p>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-3">
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-sm"></i>
+                    <input id="search-input" type="text" oninput="filterChannels()" placeholder="চ্যানেলের নাম লিখে সার্চ করুন (যেমন: T Sports, Somoy...)" class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-xs focus:outline-none focus:border-blue-500 text-white placeholder-slate-500 transition">
                 </div>
+
+                <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs">
+                    <button onclick="changeCategory('all')" id="tab-all" class="bg-blue-600 px-3.5 py-2 rounded-lg font-bold whitespace-nowrap transition">সব চ্যানেল</button>
+                    <button onclick="changeCategory('worldcup')" id="tab-worldcup" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-lg font-bold whitespace-nowrap transition text-slate-400">🏆 World Cup</button>
+                    <button onclick="changeCategory('sports')" id="tab-sports" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-lg font-bold whitespace-nowrap transition text-slate-400">⚽ Sports TV</button>
+                    <button onclick="changeCategory('bangla')" id="tab-bangla" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-lg font-bold whitespace-nowrap transition text-slate-400">🇧🇩 Bangla TV</button>
+                    <button onclick="changeCategory('movies')" id="tab-movies" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-lg font-bold whitespace-nowrap transition text-slate-400">🎬 Movies</button>
+                </div>
+            </div>
+
+            <div id="channels-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+                <p class="col-span-full text-center text-slate-600 py-12 text-sm animate-pulse">চ্যানেলগুলো সাজানো হচ্ছে...</p>
             </div>
         </div>
 
-        <div class="lg:col-span-1 bg-slate-950 p-4 rounded-xl border border-slate-800 h-[calc(100vh-120px)] flex flex-col">
-            <h3 class="text-md font-bold mb-2 text-slate-300">💬 গ্লোবাল লাইভ চ্যাট</h3>
-            <div class="flex-1 bg-slate-900 rounded p-2 overflow-y-auto text-xs space-y-2" id="chat-box">
-                <p class="text-slate-600 text-center mt-10">এখানে চ্যাট মেসেজ দেখাবে। (Firebase/Supabase কনফিগার করুন)</p>
-            </div>
-            <div class="mt-3 flex gap-1">
-                <input type="text" placeholder="মন্তব্য লিখুন..." class="bg-slate-900 border border-slate-700 rounded p-2 text-xs flex-1 text-white focus:outline-none">
-                <button class="bg-blue-600 px-3 py-2 rounded text-xs font-bold">পাঠান</button>
+        <div class="lg:col-span-1">
+            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 sticky top-[80px]">
+                <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
+                    <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
+                        <i class="fa-regular fa-calendar-days"></i> খেলার সময়সূচী
+                    </h3>
+                    <span class="text-[9px] bg-blue-950 text-blue-400 px-2 py-0.5 rounded border border-blue-900 font-semibold">LIVE UPDATED</span>
+                </div>
+                <div id="schedule-container" class="space-y-2.5 max-h-[calc(100vh-200px)] overflow-y-auto pr-1">
+                    <p class="text-slate-600 text-xs text-center py-6 animate-pulse">সময়সূচী আপডেট হচ্ছে...</p>
+                </div>
             </div>
         </div>
 
@@ -72,111 +86,139 @@
 
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
-        let currentBackupUrls = [
-            "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", // সার্ভার ১
-            "https://res.cloudinary.com/dannyvnm/video/upload/sp_auto/v1568241857/sample_dash/manifest.mpd" // সার্ভার ২ (টেস্ট ব্যাকআপ)
-        ];
-
+        let allChannels = [];
+        let currentCategory = 'all';
         const player = videojs('live-player');
 
-        // ১. অটো-ফেইলওভার (Smart Error Handling)
-        player.on('error', function() {
-            console.log("সার্ভার ১ ডাউন! ব্যাকআপ সার্ভারে সুইচ করা হচ্ছে...");
-            switchServer(1);
-        });
-
-        function switchServer(index) {
-            if(currentBackupUrls[index]) {
-                player.src({ src: currentBackupUrls[index], type: 'application/x-mpegURL' });
-                player.play();
-                document.getElementById('playing-title').innerText = `এখন দেখছেন: সার্ভার ${index + 1}`;
+        // ১. সার্ভার থেকে channels.json ডেটা পড়া
+        async function fetchChannelsList() {
+            try {
+                const response = await fetch('channels.json');
+                allChannels = await response.json();
+                filterChannels(); // প্রথমবার সব লোড হবে
+            } catch (error) {
+                document.getElementById('channels-grid').innerHTML = '<p class="col-span-full text-center text-red-500 text-xs py-6">❌ চ্যানেল লিস্ট লোড করা যায়নি।</p>';
             }
         }
 
-        // ২. পিকচার-ইন-পিকচার (PiP) মোড
+        // ২. ক্যাটাগরি এবং সার্চ টেক্সট মিলিয়ে চ্যানেল ফিল্টার করার মেইন ইঞ্জিন
+        function filterChannels() {
+            const searchText = document.getElementById('search-input').value.toLowerCase();
+            
+            let filtered = allChannels.filter(ch => {
+                if (ch.name.startsWith('#')) return false; // ইনভ্যালিড ডেটা বাদ দেওয়া
+                
+                const name = ch.name.toLowerCase();
+                const url = ch.url.toLowerCase();
+                
+                // প্রথমে সার্চ টেক্সট চেক
+                const matchesSearch = name.includes(searchText);
+                
+                // তারপর ক্যাটাগরি ম্যাচিং
+                let matchesCategory = false;
+                if (currentCategory === 'all') matchesCategory = true;
+                else if (currentCategory === 'worldcup') matchesCategory = name.includes('fifa') || name.includes('world cup');
+                else if (currentCategory === 'sports') matchesCategory = name.includes('sports') || name.includes('willow') || name.includes('gazi') || name.includes('t sports') || name.includes('max') || name.includes('fox') || name.includes('sky');
+                else if (currentCategory === 'movies') matchesCategory = url.includes('.mkv') || url.includes('.mp4') || name.includes('[2026]');
+                else if (currentCategory === 'bangla') {
+                    // স্পোর্টস এবং মুভি বাদে বাকি সব লোকাল চ্যানেল
+                    const isSports = name.includes('sports') || name.includes('willow') || name.includes('gazi') || name.includes('t sports') || name.includes('max') || name.includes('fox') || name.includes('sky');
+                    const isMovie = url.includes('.mkv') || url.includes('.mp4') || name.includes('[2026]');
+                    const isWC = name.includes('fifa') || name.includes('world cup');
+                    matchesCategory = !isSports && !isMovie && !isWC;
+                }
+                
+                return matchesSearch && matchesCategory;
+            });
+
+            renderGrid(filtered);
+        }
+
+        // ৩. গ্রিডে বাটনগুলো জেনারেট করা
+        function renderGrid(channelsList) {
+            let html = '';
+            channelsList.forEach(ch => {
+                html += `
+                    <button onclick="streamPlay('${ch.url}', '${ch.name}')" class="bg-slate-950 p-3 rounded-xl border border-slate-800 hover:border-blue-500 hover:bg-slate-900 transition-all text-left focus:outline-none flex flex-col justify-center gap-1 group relative overflow-hidden min-h-[75px] shadow-md">
+                        <div class="absolute right-2 top-2 opacity-10 group-hover:opacity-30 transition">
+                            <i class="fa-solid fa-tv text-xl"></i>
+                        </div>    
+                        <span class="text-[11px] font-bold text-slate-200 group-hover:text-blue-400 transition line-clamp-1 leading-tight uppercase tracking-wide">${ch.name}</span>
+                        <span class="text-[9px] text-slate-500 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span> Live Stream</span>
+                    </button>`;
+            });
+            
+            document.getElementById('channels-grid').innerHTML = html || '<p class="col-span-full text-center text-slate-500 text-xs py-10">🔍 কোনো চ্যানেল খুঁজে পাওয়া যায়নি!</p>';
+        }
+
+        // ৪. ট্যাব পরিবর্তনের ফাংশন
+        function changeCategory(catName) {
+            currentCategory = catName;
+            const tabs = ['all', 'worldcup', 'sports', 'bangla', 'movies'];
+            
+            tabs.forEach(t => {
+                const button = document.getElementById('tab-' + t);
+                if (t === catName) {
+                    button.className = "bg-blue-600 px-3.5 py-2 rounded-lg font-bold whitespace-nowrap transition text-white shadow-md";
+                } else {
+                    button.className = "bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3.5 py-2 rounded-lg font-bold whitespace-nowrap transition text-slate-400";
+                }
+            });
+            
+            filterChannels();
+        }
+
+        // ৫. ভিডিও প্লেয়ার কন্ট্রোল (.m3u8 এবং .mkv/.mp4 দুই ফরম্যাটের জন্যই)
+        function streamPlay(url, name) {
+            let streamType = 'application/x-mpegURL';
+            if (url.endsWith('.mp4') || url.endsWith('.mkv')) {
+                streamType = 'video/mp4'; 
+            }
+            
+            player.src({ src: url, type: streamType });
+            player.play();
+            document.getElementById('playing-title').innerHTML = `<span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span> এখন দেখছেন: ${name}`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ৬. পিকচার-ইন-পিকচার (PiP) মোড সচল করা
         async function togglePip() {
-            const videoElement = document.querySelector('video');
+            const video = document.querySelector('video');
             if (document.pictureInPictureElement) {
                 await document.exitPictureInPicture();
-            } else if (videoElement) {
-                await videoElement.requestPictureInPicture();
+            } else if (video) {
+                await video.requestPictureInPicture();
             }
         }
 
-        // ৩. গিটহাব অ্যাকশনের জেনারেট করা schedule.json ফাইল রিড করা
-        async function loadGithubSchedule() {
+        // ৭. অটো-আপডেটেড সময়সূচী রেন্ডার করা
+        async function fetchLiveSchedule() {
             try {
                 const response = await fetch('schedule.json');
                 const matches = await response.json();
                 let html = '';
                 matches.forEach(m => {
+                    const isLive = m.status === 'Live';
                     html += `
-                        <div class="bg-slate-900 p-3 rounded border border-slate-800 flex justify-between items-center">
-                            <div>
-                                <p class="font-bold text-slate-200">${m.match || m.title}</p>
-                                <p class="text-[10px] text-slate-500">${m.time}</p>
+                        <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center gap-2 hover:border-slate-700 transition">
+                            <div class="min-w-0 flex-1">
+                                <p class="font-semibold text-slate-200 text-xs truncate">${m.match || m.title}</p>
+                                <p class="text-[9px] text-slate-500 mt-0.5"><i class="fa-regular fa-clock"></i> ${m.time}</p>
                             </div>
-                            <span class="${m.status === 'Live' ? 'bg-red-600 animate-pulse' : 'bg-slate-800'} px-2 py-0.5 rounded text-[10px] font-bold">${m.status}</span>
+                            <span class="${isLive ? 'bg-red-600 animate-pulse text-white' : 'bg-slate-800 text-slate-400'} px-2 py-0.5 rounded text-[8px] font-bold tracking-wider uppercase shrink-0">
+                                ${m.status}
+                            </span>
                         </div>`;
                 });
                 document.getElementById('schedule-container').innerHTML = html;
             } catch (e) {
-                document.getElementById('schedule-container').innerHTML = '<p class="text-red-500">সময়সূচী লোড করা যায়নি।</p>';
-            }
-        }
-        loadGithubSchedule();
-
-        // ৪. কাস্টম M3U প্লেলিস্ট পার্সার
-        async function loadM3uPlaylist() {
-            const url = document.getElementById('m3u-url').value;
-            if(!url) return alert('দয়া করে লিংক দিন!');
-            
-            try {
-                const response = await fetch(url);
-                const text = await response.text();
-                const lines = text.split('\n');
-                let channels = [];
-                
-                for(let i=0; i<lines.length; i++) {
-                    if(lines[i].startsWith('#EXTINF:')) {
-                        let name = lines[i].split(',')[1] || "Unknown Channel";
-                        let streamUrl = lines[i+1] ? lines[i+1].trim() : '';
-                        if(streamUrl && !streamUrl.startsWith('#')) {
-                            channels.push({ name, url: streamUrl });
-                        }
-                    }
-                }
-                
-                // ইন্টারফেসে চ্যানেলগুলো দেখানো
-                let listHtml = '';
-                channels.forEach(ch => {
-                    listHtml += `
-                        <button onclick="playCustomChannel('${ch.url}', '${ch.name}')" class="w-full bg-slate-900 hover:bg-slate-800 p-2 rounded text-left border border-slate-800 block truncate text-slate-300">
-                            📺 ${ch.name}
-                        </button>`;
-                });
-                document.getElementById('channel-list').innerHTML = listHtml;
-                localStorage.setItem('savedM3u', url); // ব্রাউজারে লিংক সেভ রাখা
-            } catch (err) {
-                alert('M3U প্লেলিস্ট লোড করতে সমস্যা হয়েছে। CORS সিকিউরিটি ব্লক থাকতে পারে।');
+                document.getElementById('schedule-container').innerHTML = '<p class="text-slate-600 text-[10px] text-center py-4">🕒 কোনো সময়সূচী পাওয়া যায়নি।</p>';
             }
         }
 
-        function playCustomChannel(url, name) {
-            currentBackupUrls[0] = url; // মেইন ইউআরএল আপডেট
-            player.src({ src: url, type: 'application/x-mpegURL' });
-            player.play();
-            document.getElementById('playing-title').innerText = "এখন দেখছেন: " + name;
-        }
-
-        // ব্রাউজার রিলোড দিলেও আগের লিংক লোড হয়ে থাকবে
-        window.onload = () => {
-            let saved = localStorage.getItem('savedM3u');
-            if(saved) {
-                document.getElementById('m3u-url').value = saved;
-                loadM3uPlaylist();
-            }
-        }
+        // পেজ রান করার সাথে সাথে ডেটা লোড হবে
+        fetchChannelsList();
+        fetchLiveSchedule();
     </script>
 </body>
 </html>
